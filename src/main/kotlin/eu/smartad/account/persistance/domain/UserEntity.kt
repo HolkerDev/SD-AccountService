@@ -11,7 +11,9 @@ data class UserEntity(
     @Column(name = "surname", nullable = false)
     val surname: String,
     @Column(name = "username", nullable = false, unique = true)
-    val username: String
+    val username: String,
+    @Column(name = "password", nullable = false)
+    val password: String
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "system-uuid")
