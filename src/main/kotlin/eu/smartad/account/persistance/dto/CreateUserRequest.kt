@@ -8,5 +8,6 @@ data class CreateUserRequest @JsonCreator constructor(
     @field:JsonProperty("first_name")
     var firstName: String,
     var surname: String,
-    var password: String
+    var password: String,
+    var email:String
 )

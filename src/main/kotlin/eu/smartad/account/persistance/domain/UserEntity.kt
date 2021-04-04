@@ -1,5 +1,6 @@
 package eu.smartad.account.persistance.domain
 
+import eu.smartad.account.persistance.dto.response.UserDto
 import java.util.*
 import javax.persistence.*
 
@@ -13,7 +14,9 @@ data class UserEntity(
     @Column(name = "username", nullable = false, unique = true)
     val username: String,
     @Column(name = "password", nullable = false)
-    val password: String
+    val password: String,
+    @Column(name = "email", nullable = false, unique = true)
+    var email: String
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "system-uuid")
@@ -23,5 +26,10 @@ data class UserEntity(
     @OneToMany(fetch = FetchType.LAZY)
     var userRoles: List<UserRolesEntity> = arrayListOf()
 
+    @Column(name = "is_verify", nullable = false)
+    var isVerify: Boolean = false
+
     fun getRoles() = userRoles.map { it.role.roleDesc }.toSet()
+
+    fun toDto() = UserDto(this.username, this.firstName, this.surname)
 }

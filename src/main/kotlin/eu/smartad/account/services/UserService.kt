@@ -1,5 +1,7 @@
 package eu.smartad.account.services
 
+import eu.smartad.account.persistance.domain.UserEntity
+import eu.smartad.account.persistance.dto.CreateUserRequest
 import eu.smartad.account.persistance.dto.response.UserDto
 import eu.smartad.account.repositories.IUserRepository
 import org.slf4j.LoggerFactory
@@ -16,7 +18,7 @@ class UserService @Autowired constructor(private val userRepo: IUserRepository) 
             log.error("User with id: $userId is not present id db")
             throw Exception("User not found for userId: $userId")
         }
-        return UserDto(user.username, user.firstName, user.surname)
+        return user.toDto()
     }
 
     fun findUserDto(username: String): UserDto {
@@ -24,6 +26,14 @@ class UserService @Autowired constructor(private val userRepo: IUserRepository) 
             log.error("User with username: $username is not present in db")
             throw Exception("User not found for username: $username")
         }
-        return UserDto(user.username, user.firstName, user.surname)
+        return user.toDto()
+    }
+
+    fun createUser(userForm: CreateUserRequest): UserDto {
+        val newUser =
+            UserEntity(userForm.firstName, userForm.surname, userForm.username, userForm.password, userForm.email)
+        //TODO: add mail verification
+        val user = userRepo.save(newUser)
+        return user.toDto()
     }
 }
