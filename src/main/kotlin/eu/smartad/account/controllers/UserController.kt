@@ -22,7 +22,8 @@ class UserController @Autowired constructor(private val userService: UserService
 
     @PostMapping("/")
     fun createUser(requestForm: CreateUserRequest): ResponseEntity<*> {
-        TODO("Create user")
+        val userDto = userService.createUser(requestForm)
+        return ResponseEntity.ok(userDto)
     }
 
     @GetMapping("/{userId}")
